@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>I3A Agents Web Client</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+
+<body>
+
+  <!-- Barra de Navegación superior -->
+  <nav class="awsnav">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+        <p class="awsnav-title">Agents Web Client</p>
+      </div>
+      <div class="collapse navbar-collapse" id="myNavbar">
+        <ul class="nav navbar-nav">
+          <li id="mTienda" class="awsnav-element"><a href="/incidents" class="active">Incidents</a></li>
+          <li id="mPublicaciones" class="awsnav-element"><a href="/incidents/new">New Incident</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="/logout"><span
+							class="glyphicon glyphicon-log-in"></span> Log out</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <div class="container">
+      <h2>Incidents submitted</h2>
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <form class="navbar-form" th:action="${'?${searchtext}'}">
+                <td colspan="5" class="awstable-seach"><input th:name="searchtext" th:value="${searchtext}" type="text" class="form-control" placeholder="Search by title, description or status"></td>
+              </form>
+            </tr>
+          </thead>
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Description</th>
+              <th>Status</th>
+              <th>Date submitted</th>
+              <th class="col-md-1"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="incident : ${incidents}">
+              <td th:text="${incident.title}" class="awstable-shorttext">Fire at the petrol station</td>
+              <td th:text="${incident.description}" class="awstable-longtext">There is fire at the petros station lalalalalalalalallalalalalalallala long textisadbhf ksadhjfliszhniasdhgpierahgñanvpiu9aerhganfvàiehrg98hgñkadjshg98erhgpiuhgopahgvp9qerhg</td>
+              <td th:text="${incident.status}">OPEN</td>
+              <td th:text="${incident.getDate()}">25/04/2018</td>
+              <td><a th:href="${'/incidents/' + incident.incidentId}" class="awstable-button">Detalles</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+
+</html>
