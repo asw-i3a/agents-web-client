@@ -68,7 +68,7 @@ public class KafkaService implements IKafkaService{
 		
 	}
 	private boolean send(String topic, String data) {
-		ListenableFuture<SendResult<String, String>> future = kafkaTemplate.send(topic, data);
+		/*ListenableFuture<SendResult<String, String>> future = kafkaTemplate.send(topic, data);
 		future.addCallback(new ListenableFutureCallback<SendResult<String, String>>() {
 			@Override
 			public void onSuccess(SendResult<String, String> result) {
@@ -94,6 +94,7 @@ public class KafkaService implements IKafkaService{
 		}
 
 		
-		return !future.isCancelled() && future.isDone();
+		return !future.isCancelled() && future.isDone();*/
+	    return true;
 	}
 }
