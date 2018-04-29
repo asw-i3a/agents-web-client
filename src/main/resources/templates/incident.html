@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>I3A Agents Web Client</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="/style.css" />
+</head>
+
+<body class="newIncident">
+
+	<!-- Barra de Navegación superior -->
+	<nav class="awsnav">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<p class="awsnav-title">Agents Web Client</p>
+			</div>
+			<div class="collapse navbar-collapse" id="myNavbar">
+				<ul class="nav navbar-nav">
+					<li id="mTienda" class="awsnav-element"><a href="/incidents">Incidents</a></li>
+					<li id="mPublicaciones" class="awsnav-element"><a href="/incidents/new">New Incident</a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="/logout"><span
+							class="glyphicon glyphicon-log-in"></span> Log out</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<div class="container" id="create-incident-cont">
+
+		<h2 class="aws-page-header">Incident</h2>
+		<form th:object="${IncidentInfo}" id="Datos" class="aws-form form-incident">
+			<div class="control-group">
+				<label class="hero-label">Name</label>
+				<div class="controls">
+					<p class="account-name">***</p>
+				</div>
+				<label class="hero-label">Account</label>
+				<div class="controls">
+					<p class="account-name" th:text="${incident.agentId}"></p>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="hero-label control-label col-sm-2" for="login">Title*:</label>
+				<div class="controls">
+					<input id="name" name="title" type="text" class="form-control" th:value="${incident.title}" readonly/>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="hero-label control-label col-sm-2" for="description">Description*:</label>
+				<div class="controls">
+					<textarea id="description" name="description" type="text" class="form-control" form="Datos" th:text="${incident.description}" readonly></textarea>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="hero-label control-label col-sm-2" for="location">Location:</label>
+				<div class="controls">
+					<input id="location" name="location" type="text" class="form-control" placeholder="In format: 0.555, -4.555" th:value="${incident.location}" readonly/>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="hero-label control-label col-sm-2" for="asignee">Assignee:</label>
+				<div class="controls">
+					<input id="asignee" name="agentId" type="text" class="form-control" placeholder="Id of the operator to assign" th:value="${incident.operatorId}" readonly/>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="hero-label control-label col-sm-2" for="expiration">Expiration:</label>
+				<div class="controls date" id="datetimepicker">
+					<input id="expiration" name="expiration" type="text" class="form-control" placeholder="In timestampt format" readonly/>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="hero-label control-label col-sm-2" for="tags">Tags:</label>
+				<div class="controls">
+					<input id="tags" name="tags" type="text" class="form-control" placeholder="Enter the tags separated by commas" th:value="${incident.tags}" readonly/>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="hero-label control-label col-sm-2" for="multimedia">Multimedia:</label>
+				<div class="controls">
+					<input id="multimedia" name="multimedia" type="text" class="form-control" placeholder="Add your multimedia links separated by commas" th:value="${incident.multimedia}" readonly/>
+				</div>
+			</div>
+			<div class="control-group control-last">
+				<label class="hero-label control-label col-sm-2" for="properties">Properties:</label>
+				<div class="controls">
+					<input id="properties" name="properties" type="text" class="form-control" placeholder="Enter the properties in the followin format: key:value, key:value..." th:value="${incident.propertyVal}" readonly/>
+				</div>
+			</div>
+		</form>
+
+	</div>
+
+</body>
+
+</html>

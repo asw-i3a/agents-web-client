@@ -10,7 +10,6 @@
 package org.uniovi.i3a.incimanager.rest;
 
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.json.JSONObject;
@@ -24,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.uniovi.i3a.incimanager.kafka.IKafkaService;
+import org.uniovi.i3a.incimanager.types.Comment;
+import org.uniovi.i3a.incimanager.types.Incident;
 
 import lombok.val;
 import lombok.extern.slf4j.Slf4j;
@@ -45,6 +46,7 @@ public class RESTController {
     @Autowired
     IKafkaService kafkaService;
 
+    @SuppressWarnings("unchecked")
     @RequestMapping(value = "/sensor-feed", method = RequestMethod.POST, consumes = {
 	    MediaType.APPLICATION_JSON_VALUE }, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> processSensorRequest(@RequestBody Map<String, Object> payload) {
@@ -59,35 +61,34 @@ public class RESTController {
 	    return new ResponseEntity<String>("{\"response\":\"UNAUTHORIZED ACCESS WILL BE REPORTED\"}",
 		    HttpStatus.UNAUTHORIZED);
 	}
+	
+	Incident incident = new Incident();
+	incident.setTitle(payload.get("title").toString());
+	incident.setDescription(payload.get("description").toString());
+	incident.setStatus("OPEN");
+	incident.setLocation(payload.get("location").toString());
+	incident.setTags((String[])payload.get("tags"));
+	incident.setMultimedia((String[])payload.get("multimedia"));
+	incident.setPropertyVal((Map<String, String>)payload.get("pop-val"));
+	incident.setComments(new Comment[0]);
+	incident.setAgentId(authenticationResponse.getBody().getObject().getString("agentId"));
+	incident.setOperatorId("");
 
-	// Process the message in the request.
-	@SuppressWarnings({ "unchecked" })
-	val message = (LinkedHashMap<String, Object>) payload.get("message");
-	message.put("name", authenticationResponse.getBody().getObject().get("name"));
-	message.put("location", authenticationResponse.getBody().getObject().get("location"));
-	message.put("email", authenticationResponse.getBody().getObject().get("email"));
-	message.put("id", authenticationResponse.getBody().getObject().get("id"));
-	message.put("kind", authenticationResponse.getBody().getObject().get("kind"));
-	message.put("kindCode", authenticationResponse.getBody().getObject().get("kindCode"));
-
-	message.put("login", payload.get("login"));
-	message.put("password", payload.get("password"));
-
-	System.out.println(message);
+	log.info(incident.toString());
 
 	// Send the message to Apache Kafka | Database
 	// kafkaService.sendIncidence(message);
 
-	if (kafkaService.sendIncidence(message)) {
+	if (kafkaService.sendIncidence(incident)) {
 	    return new ResponseEntity<String>("{\"response\":\"request processed\"}", HttpStatus.OK);
 	}
 
-	// If all went OK return OK status.
+	// If all went wrong return NOT_ACCEPTABLE status.
 	return new ResponseEntity<String>("{\"response\":\"request not processed\"}", HttpStatus.NOT_ACCEPTABLE);
     }
 
     @RequestMapping(value = "/info")
-    public ResponseEntity<String> instances() {
+    public ResponseEntity<String> info() {
 	Map<String, String> payload = new HashMap<String, String>();
 	payload.put("service-name", "incident-manager");
 	payload.put("service-description", "This service allows to create incidences");

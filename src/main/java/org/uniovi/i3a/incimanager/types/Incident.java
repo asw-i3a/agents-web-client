@@ -22,6 +22,8 @@ public class Incident {
     private String operatorId = "";
     
     public String getDate() {
-	return new ObjectId(this.incidentId).getDate().toString();
+	if(this.incidentId != null && this.incidentId!="")
+	    return new ObjectId(this.incidentId).getDate().toString();
+	return "";
     }
 }
