@@ -8,7 +8,8 @@ import lombok.Data;
 public class IncidentInfo {
 	private String name;
 	private String description;
-	private String location;
+	private String latitude;
+	private String longitude;
 	private String asignee;
 	private String expiration;
 	private String tags;
