@@ -28,17 +28,23 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.uniovi.i3a.incimanager.rest.AgentsQueryFormatter;
+import org.uniovi.i3a.incimanager.types.Comment;
 import org.uniovi.i3a.incimanager.types.Incident;
 import org.uniovi.i3a.incimanager.clients.IncidentsServiceClient;
 import org.uniovi.i3a.incimanager.clients.IncidentsServiceClientImpl;
 import org.uniovi.i3a.incimanager.kafka.KafkaService;
 import org.uniovi.i3a.incimanager.rest.AgentsConnection;
+
+import com.google.common.collect.Lists;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Instance of WebLoginController.java
@@ -46,6 +52,7 @@ import com.mashape.unirest.http.JsonNode;
  * @author
  * @version
  */
+@Slf4j
 @EntityScan
 @Controller
 public class WebController {
@@ -97,18 +104,64 @@ public class WebController {
 			    || i.getDescription().toUpperCase().contains(searchtext.toUpperCase())
 			    || i.getStatus().toUpperCase().contains(searchtext.toUpperCase()))
 		    .collect(Collectors.toList());
-	} else {
-
+	    incidents = Lists.reverse(incidents);
 	}
-
+	
+	incidents = Lists.reverse(incidents);
 	model.addAttribute("incidents", incidents);
 	return "incidents";
     }
 
-    @RequestMapping(value = "/incidents/new", method = RequestMethod.GET)
-    public String newIncident(@Nullable @CookieValue("agentId") String agentId) {
+    @RequestMapping(value = "/incidents/new", method = RequestMethod.POST)
+    public String newIncident(@Nullable @CookieValue("agentId") String agentId, @ModelAttribute("IncidentInfo") IncidentInfo formValues) {
 	if(agentId == null)
 	    return "redirect:/login";
+	Incident incident = new Incident();
+	incident.setTitle(formValues.getTitle());
+	incident.setDescription(formValues.getDescription());
+	incident.setStatus("OPEN");
+	incident.setLocation(formValues.getLocation());
+	incident.setComments(new Comment[0]);
+	incident.setAgentId(agentId);
+	incident.setOperatorId(formValues.getOperatorId());
+	
+	// Computing the tags
+	String[] tagsList = new String[((String) formValues.getTags()).split(",").length];
+	int i = 0;
+	for (String tag : ((String) formValues.getTags()).split(",")) {
+	    tagsList[i] = (tag.trim());
+	    i++;
+	}
+	incident.setTags(tagsList);
+	
+	// Computing multimedia
+	List<String> multimedia = new LinkedList<String>();
+	for (String info : ((String) formValues.getMultimedia()).split(",")) {
+	    multimedia.add(info.trim());
+	}
+	String[] multimediaString = multimedia.toArray(new String[multimedia.size()]);
+	incident.setMultimedia(multimediaString);
+	
+	// Computing properties
+	Map<String, String> propsList = new HashMap<String, String>();
+	for (String prop : ((String) formValues.getProperties()).split(",")) {
+	    if (prop.split(":").length == 2)
+		propsList.put(prop.split(":")[0].trim(), prop.split(":")[1].trim());
+	}
+	incident.setPropertyVal(propsList);
+	
+	log.info("The resut after the insertion was: " + kafkaService.sendIncidence(incident));
+	
+	return "redirect:/incidents";
+    }
+    
+    @RequestMapping(value = "/incidents/new", method = RequestMethod.GET) 
+    public String saveIncident(Model model, @Nullable @CookieValue("agentId") String agentId){
+	if(agentId == null)
+	    return "redirect:/login";
+	
+	model.addAttribute("agentId", agentId);
+	
 	return "newIncident";
     }
 
@@ -122,45 +175,11 @@ public class WebController {
 	return "redirect:/";
     }
 
-    @RequestMapping(value = "/incident", method = RequestMethod.POST)
-    public String setIncident(Model model, @ModelAttribute("IncidentInfo") IncidentInfo values, BindingResult result) {
-	Map<String, Object> map = new HashMap<String, Object>();
-	map.put("incidenceName", values.getName());
-	map.put("description", values.getDescription());
-	map.put("location", values.getLocation());
-	map.put("asignee", values.getAsignee());
-	map.put("expiration", values.getExpiration());
-	map.put("state", values.getState());
-
-	List<String> tagsList = new LinkedList<String>();
-	for (String tag : ((String) values.getTags()).split(",")) {
-	    tagsList.add(tag.trim());
-	}
-	map.put("tags", tagsList);
-
-	List<String> infoList = new LinkedList<String>();
-	for (String info : ((String) values.getMultimedia()).split(",")) {
-	    infoList.add(info.trim());
-	}
-	map.put("additional_information", infoList);
-
-	Map<String, String> propsList = new HashMap<String, String>();
-	for (String prop : ((String) values.getProperties()).split(",")) {
-	    if (prop.split(":").length == 2)
-		propsList.put(prop.split(":")[0].trim(), prop.split(":")[1].trim());
-	}
-	map.put("properties", propsList);
-
-	if (kafkaService.sendIncidence(map)) {
-	    model.addAttribute("valuesMap", map);
-	    return "result";
-	}
-
-	return "incidentForm";
-    }
-
-    @RequestMapping(value = "/incident")
-    public String getIncident() {
-	return "incidentForm";
+    @RequestMapping(value = "/incidents/{id}")
+    public String getIncident(Model model, @PathVariable("id") String incidentId) {
+	Incident incident = incidentsClient.findByIncidentId(incidentId);
+	model.addAttribute("incident", incident);
+	
+	return "incident";
     }
 }
