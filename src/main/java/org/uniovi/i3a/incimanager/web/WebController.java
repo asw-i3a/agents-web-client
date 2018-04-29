@@ -77,6 +77,11 @@ public class WebController {
 		    (String) authenticationResponse.getBody().getObject().get("agentId"));
 	    agentId.setMaxAge(1000);
 	    response.addCookie(agentId);
+	    
+	    Cookie login = new Cookie("login",
+			    values.getLogin());
+		    agentId.setMaxAge(1000);
+		    response.addCookie(login);
 
 	    return "redirect:/incidents";
 	}
@@ -123,11 +128,12 @@ public class WebController {
     }
 
     @RequestMapping(value = "/incident", method = RequestMethod.POST)
-    public String setIncident(Model model, @ModelAttribute("IncidentInfo") IncidentInfo values, BindingResult result) {
+    public String setIncident(Model model, @ModelAttribute("IncidentInfo") IncidentInfo values, BindingResult result, @Nullable @CookieValue("login") String login) {
 	Map<String, Object> map = new HashMap<String, Object>();
+	map.put("login", login);
 	map.put("incidenceName", values.getName());
 	map.put("description", values.getDescription());
-	map.put("location", values.getLocation());
+	map.put("location", values.getLatitude()+","+values.getLongitude());
 	map.put("asignee", values.getAsignee());
 	map.put("expiration", values.getExpiration());
 	map.put("state", values.getState());
@@ -156,11 +162,6 @@ public class WebController {
 	    return "result";
 	}
 
-	return "incidentForm";
-    }
-
-    @RequestMapping(value = "/incident")
-    public String getIncident() {
-	return "incidentForm";
+	return "newIncident";
     }
 }

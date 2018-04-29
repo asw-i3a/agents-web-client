@@ -2,82 +2,110 @@
 <html lang="en">
 
 <head>
-  <title>I3A Agents Web Client</title>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <link rel="stylesheet" href="/style.css" />
+<title>I3A Agents Web Client</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="/style.css" />
 </head>
 
 <body class="newIncident">
 
-  <!-- Barra de Navegación superior -->
-  <nav class="awsnav">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+	<!-- Barra de Navegación superior -->
+	<nav class="awsnav">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target="#myNavbar">
 					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-        <p class="awsnav-title">Agents Web Client</p>
-      </div>
-      <div class="collapse navbar-collapse" id="myNavbar">
-        <ul class="nav navbar-nav">
-          <li id="mTienda" class="awsnav-element"><a href="/incidents">Incidents</a></li>
-          <li id="mPublicaciones" class="awsnav-element"><a href="/incidents/new" class="active">New Incident</a></li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-          <li><a href="/logout"><span
+				<p class="awsnav-title">Agents Web Client</p>
+			</div>
+			<div class="collapse navbar-collapse" id="myNavbar">
+				<ul class="nav navbar-nav">
+					<li id="mTienda" class="awsnav-element"><a href="/incidents">Incidents</a></li>
+					<li id="mPublicaciones" class="awsnav-element"><a
+						href="/incidents/new" class="active">New Incident</a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="/logout"><span
 							class="glyphicon glyphicon-log-in"></span> Log out</a></li>
-        </ul>
-      </div>
-    </div>
-  </nav>
+				</ul>
+			</div>
+		</div>
+	</nav>
 
-  <div class="container">
+	<div class="container">
 
-    <form action="/incident" th:object="${IncidentInfo}" id="Datos" class="form-incident" method="post">
-      <h2>New Incident</h2>
-      <div class="form-group">
-        <label class="hero-label control-label col-sm-2" for="login">Incident Name:</label>
-        <input id="name" name="name" type="text" class="hero-input form-control" />
-      </div>
-      <div class="form-group">
-        <label class="hero-label control-label col-sm-2" for="description">Description:</label>
-        <input id="description" name="description" type="text" class="hero-input form-control" />
-      </div>
-      <div class="form-group">
-        <label class="hero-label control-label col-sm-2" for="location">Location:</label>
-        <input id="location" name="location" type="text" class="hero-input form-control" placeholder="In format: 10N10W" />
-      </div>
-      <div class="form-group">
-        <label class="hero-label control-label col-sm-2" for="asignee">Assignee:</label>
-        <input id="asignee" name="asignee" type="text" class="hero-input form-control" placeholder="Id of the agent to assign" />
-      </div>
-      <div class="form-group">
-        <label class="hero-label control-label col-sm-2" for="expiration">Expiration:</label>
-        <input id="expiration" name="expiration" type="text" class="hero-input form-control" placeholder="In timestampt format" />
-      </div>
-      <div class="form-group">
-        <label class="hero-label control-label col-sm-2" for="state">State:</label> <input id="state" name="state" type="text" class="hero-input form-control" placeholder="One of the following options: open, close..." />
-      </div>
-      <div class="form-group">
-        <label class="hero-label control-label col-sm-2" for="tags">Tags:</label> <input id="tags" name="tags" type="text" class="hero-input form-control" placeholder="Enter the tags separated by commas" />
-      </div>
-      <div class="form-group">
-        <label class="hero-label control-label col-sm-2" for="multimedia">Multimedia:</label>
-        <input id="multimedia" name="multimedia" type="text" class="hero-input form-control" placeholder="Add your multimedia links separated by commas" />
-      </div>
-      <div class="form-group">
-        <label class="hero-label control-label col-sm-2" for="properties">Properties:</label>
-        <input id="properties" name="properties" type="text" class="hero-input form-control" placeholder="Enter the properties in the followin format: key:value, key:value..." />
-      </div>
-      <button id="Enter" name="Enter" type="submit" value="enter" class="hero-button btn btn-block">Send incident to the system</button>
-    </form>
+		<form action="/incident" th:object="${IncidentInfo}" id="Datos"
+			class="form-incident" method="post">
+			<h2>New Incident</h2>
+			<div class="form-group">
+				<label class="hero-label control-label col-sm-2" for="login">Incident
+					Name:</label> <input id="name" name="name" type="text"
+					class="hero-input form-control" />
+			</div>
+			<div class="form-group">
+				<label class="hero-label control-label col-sm-2" for="description">Description:</label>
+				<input id="description" name="description" type="text"
+					class="hero-input form-control" />
+			</div>
+			<div class="form-group">
+				<label class="hero-label control-label col-sm-2" for="latitude">Latitude:</label>
+				<input id="latitude" name="latitude" type="text"
+					class="hero-input form-control" placeholder="Latitude" /> <label
+					class="hero-label control-label col-sm-2" for="longitude">Longitude:</label>
+				<input id="longitude" name="longitude" type="text"
+					class="hero-input form-control" placeholder="Longitude" />
+			</div>
+			<div class="form-group">
+				<label class="hero-label control-label col-sm-2" for="asignee">Assignee:</label>
+				<input id="asignee" name="asignee" type="text"
+					class="hero-input form-control"
+					placeholder="Id of the agent to assign" />
+			</div>
+			<div class="form-group">
+				<label class="hero-label control-label col-sm-2" for="expiration">Expiration:</label>
+				<input id="expiration" name="expiration" type="text"
+					class="hero-input form-control" placeholder="In timestampt format" />
+			</div>
+			<div class="form-group">
+				<label class="hero-label control-label col-sm-2" for="state">State:</label>
+				<select id="state" name="state" class="hero-input form-control">
+					<option value="open">Open</option>
+					<option value="closed">Closed</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label class="hero-label control-label col-sm-2" for="tags">Tags:</label>
+				<input id="tags" name="tags" type="text"
+					class="hero-input form-control"
+					placeholder="Enter the tags separated by commas" />
+			</div>
+			<div class="form-group">
+				<label class="hero-label control-label col-sm-2" for="multimedia">Multimedia:</label>
+				<input id="multimedia" name="multimedia" type="text"
+					class="hero-input form-control"
+					placeholder="Add your multimedia links separated by commas" />
+			</div>
+			<div class="form-group">
+				<label class="hero-label control-label col-sm-2" for="properties">Properties:</label>
+				<input id="properties" name="properties" type="text"
+					class="hero-input form-control"
+					placeholder="Enter the properties in the followin format: key:value, key:value..." />
+			</div>
+			<button id="Enter" name="Enter" type="submit" value="enter"
+				class="hero-button btn btn-block">Send incident to the
+				system</button>
+		</form>
 
-  </div>
+	</div>
 
 </body>
 
