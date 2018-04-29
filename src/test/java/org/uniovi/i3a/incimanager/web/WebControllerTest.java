@@ -9,12 +9,16 @@
  */
 package org.uniovi.i3a.incimanager.web;
 
+import static org.junit.Assert.*;
+
 import org.junit.Before;
+import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockHttpSession;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -32,7 +36,7 @@ import TestKit.IntegrationTest;
 @SpringBootTest(classes = { Service.class })
 @RunWith(SpringJUnit4ClassRunner.class)
 @Category(IntegrationTest.class)
-//@ActiveProfiles("test")
+@ActiveProfiles("test")
 public class WebControllerTest {
 
     @Autowired
@@ -48,5 +52,10 @@ public class WebControllerTest {
 	this.mockMvc = MockMvcBuilders.webAppContextSetup(this.context).build();
 
 	session = new MockHttpSession();
+    }
+    
+    @Test
+    public void pass() {
+	assertEquals(true, true);
     }
 }
