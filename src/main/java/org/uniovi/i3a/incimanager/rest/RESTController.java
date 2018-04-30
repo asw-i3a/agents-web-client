@@ -79,7 +79,7 @@ public class RESTController {
 	// Send the message to Apache Kafka | Database
 	// kafkaService.sendIncidence(message);
 
-	if (kafkaService.sendIncidence(incident)) {
+	if (kafkaService.sendIncidence(incident, "SENSOR")) {
 	    return new ResponseEntity<String>("{\"response\":\"request processed\"}", HttpStatus.OK);
 	}
 

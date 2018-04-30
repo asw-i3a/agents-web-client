@@ -20,6 +20,6 @@ public interface IKafkaService {
      *            represent the JSON of the request. The Object value type helps not
      *            to bound the value to only one type.
      */
-    public boolean sendIncidence(Incident incident);
+    public boolean sendIncidence(Incident incident, String kind);
 
 }
