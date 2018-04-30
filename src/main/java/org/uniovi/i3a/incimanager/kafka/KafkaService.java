@@ -49,7 +49,10 @@ public class KafkaService implements IKafkaService {
 		for(String tag : incident.getTags())
 		{
 			if( dangerousTags.contains( tag ) )
+			{
+				send(TOPIC, new JSONObject(payload).toString());
 				break;
+			}
 		}
 		return true;
 	}
