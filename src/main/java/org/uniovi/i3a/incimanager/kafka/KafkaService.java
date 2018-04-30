@@ -50,11 +50,9 @@ public class KafkaService implements IKafkaService {
 		{
 			if( dangerousTags.contains( tag ) )
 			{
-				send(TOPIC, new JSONObject(payload).toString());
-				break;
+				return send(TOPIC, new JSONObject(payload).toString());
 			}
 		}
-		return true;
 	}
 	return send(TOPIC, new JSONObject(payload).toString());
 
