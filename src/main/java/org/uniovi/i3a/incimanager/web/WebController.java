@@ -150,7 +150,7 @@ public class WebController {
 	}
 	incident.setPropertyVal(propsList);
 	
-	log.info("The resut after the insertion was: " + kafkaService.sendIncidence(incident));
+	log.info("The resut after the insertion was: " + kafkaService.sendIncidence(incident, "AGENT"));
 	
 	return "redirect:/incidents";
     }

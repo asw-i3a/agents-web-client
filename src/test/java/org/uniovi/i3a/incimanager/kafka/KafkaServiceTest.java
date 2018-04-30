@@ -16,6 +16,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.uniovi.i3a.incimanager.Service;
 import org.uniovi.i3a.incimanager.kafka.wrongkafkadummy.WrongKafkaService;
+import org.uniovi.i3a.incimanager.types.Incident;
 
 import TestKit.IntegrationTest;
 
@@ -33,6 +34,7 @@ public class KafkaServiceTest {
 
     HashMap<String, Object> payload;
 
+    Incident i;
     List<String> tags, additionalInfo;
     Map<String, String> properties;
     String username, password, incidenceName, description, asignee, state, location;
@@ -73,41 +75,21 @@ public class KafkaServiceTest {
 	payload.put("additional_information", additionalInfo);
 	payload.put("properties", properties);
 	payload.put("location", location);
+	
+	i = new Incident();
+	i.setTitle(incidenceName);
+	i.setDescription(description);
+	i.setOperatorId(asignee);
+	i.setStatus(state);
+	i.setTags( tags.toArray(new String[0]) );
+	i.setMultimedia( additionalInfo.toArray(new String[0]) );
+	i.setLocation(location);
+	i.setPropertyVal(properties);
+	
     }
 
     @Test
     public void testKafkaEnqueue() {
-	// Assert.assertTrue( kafka.sendIncidence(payload) );
+	   Assert.assertTrue( kafka.sendIncidence(i, "SENSOR") );
     }
-
-    @Test
-    public void testKafkaNoUsername() {
-	payload.remove("login");
-	Assert.assertFalse( /* kafka.sendIncidence(payload) */ false);
-    }
-
-    @Test
-    public void testKafkaNoName() {
-	payload.remove("incidenceName");
-	Assert.assertFalse( /* kafka.sendIncidence(payload) */ false);
-    }
-
-    @Test
-    public void testKafkaNoState() {
-	payload.remove("state");
-	// Assert.assertTrue( kafka.sendIncidence(payload) );
-    }
-
-    @Test
-    public void testKafkaNoOptianl() {
-	payload.remove("tags");
-	payload.remove("expiration");
-	// Assert.assertTrue( kafka.sendIncidence(payload) );
-    }
-
-    @Test
-    public void testKafkaNoConnection() {
-	Assert.assertFalse( /* wrongKafka.sendIncidence(payload) */ false);
-    }
-
 }

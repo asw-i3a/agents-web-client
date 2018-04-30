@@ -1,6 +1,7 @@
 package org.uniovi.i3a.incimanager.kafka;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
@@ -30,16 +31,27 @@ public class KafkaService implements IKafkaService {
     @Value("${incidence.defaults.state}")
     private String state;
 
+    @Value("#{'${incidence.dangerous.tags}'.split(',')}")
+    List<String> dangerousTags;
+    
     @Autowired
     private KafkaTemplate<String, String> kafkaTemplate;
 
     private IncidentsServiceClient incidentsClient = new IncidentsServiceClientImpl();
 
-    public boolean sendIncidence(Incident incident) {
+    public boolean sendIncidence(Incident incident, String kind) {
 	Map<String, Object> payload = new HashMap<String, Object>();
 
 	payload.put("incidentId", incidentsClient.saveIncident(incident));
-
+	
+	if( kind.equals( "SENSOR" ) )
+	{
+		for(String tag : incident.getTags())
+		{
+			if( dangerousTags.contains( tag ) )
+				return true;
+		}
+	}
 	return send(TOPIC, new JSONObject(payload).toString());
 
     }
