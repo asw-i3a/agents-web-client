@@ -42,7 +42,7 @@ import net.minidev.json.JSONObject;
 @SpringBootTest(classes = { Service.class })
 @RunWith(SpringJUnit4ClassRunner.class)
 @Category(IntegrationTest.class)
-//@ActiveProfiles("test")
+// @ActiveProfiles("test")
 public class RESTControllerTest {
 
 	@Autowired
@@ -84,7 +84,7 @@ public class RESTControllerTest {
 		System.out.println( new JSONObject( payload ).toString() );
 		mockMvc.perform( request ).andExpect( status().isOk() );
 	}
-	
+
 	@Test
 	public void createIncidentUnSuccessfulAuth() throws Exception {
 		Map<String, Object> payload = new HashMap<String, Object>();

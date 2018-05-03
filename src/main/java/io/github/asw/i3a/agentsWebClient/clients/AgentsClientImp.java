@@ -19,12 +19,13 @@ import lombok.extern.slf4j.Slf4j;
 public class AgentsClientImp implements AgentsClient {
 
 	@Value("${agents.url}")
-    private String service_url;
+	private String service_url;
 
 	@Override
 	public String getAgentName( String id ) {
 		try {
-			HttpResponse<JsonNode> response = Unirest.post( service_url + "/agents/" + id ).asJson();
+			HttpResponse<JsonNode> response = Unirest.post( service_url + "/agents/" + id )
+					.asJson();
 			return response.getBody().getObject().getString( "name" );
 		} catch (Exception e) {
 			log.error( e.getMessage() );

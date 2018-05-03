@@ -19,9 +19,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 public class IncidentsClientImpl implements IncidentsClient {
-	
+
 	@Value("${incidents.url}")
-    private String service_url;
+	private String service_url;
 
 	@Override
 	public Incident findByIncidentId( String incidentId ) {

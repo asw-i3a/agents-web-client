@@ -60,7 +60,7 @@ public class WebController {
 
 	@Autowired
 	private AgentsClient agentsClient;
-	
+
 	@Autowired
 	private OperatorsClient operatorsClient;
 

@@ -30,8 +30,8 @@ public interface IncidentsClient {
 	 * 
 	 * @param incident to persist.
 	 * @return the id of the incident. Useful in case we are creating an
-	 *         incident and we want to know the id assigned in the database or we
-	 *         just want to know if the operation was successful.
+	 *         incident and we want to know the id assigned in the database or
+	 *         we just want to know if the operation was successful.
 	 */
 	String saveIncident( Incident incident );
 }

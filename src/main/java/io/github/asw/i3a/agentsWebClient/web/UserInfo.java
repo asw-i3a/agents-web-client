@@ -11,10 +11,10 @@ public class UserInfo {
 	private String login;
 	private String password;
 	private String kind;
-	
-	public static String toJsonFormat(UserInfo userInfo) {
-		return "{\"login\": \""+userInfo.getLogin()+"\", "+
-				"\"password\": \""+userInfo.getPassword()+"\", "+
-				"\"kind\": \""+userInfo.getKind()+"\", }";
+
+	public static String toJsonFormat( UserInfo userInfo ) {
+		return "{\"login\": \"" + userInfo.getLogin() + "\", " +
+				"\"password\": \"" + userInfo.getPassword() + "\", " +
+				"\"kind\": \"" + userInfo.getKind() + "\", }";
 	}
 }

@@ -11,7 +11,6 @@
  */
 package io.github.asw.i3a.agentsWebClient.types;
 
-
 import lombok.Data;
 
 @Data

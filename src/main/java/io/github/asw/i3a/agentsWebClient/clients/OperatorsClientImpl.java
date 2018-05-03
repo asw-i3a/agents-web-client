@@ -10,8 +10,8 @@ import io.github.asw.i3a.agentsWebClient.types.Operator;
 public class OperatorsClientImpl implements OperatorsClient {
 
 	@Value("${operators.url}")
-    private String service_url;
-	
+	private String service_url;
+
 	@Override
 	public Operator[] findAll() {
 		return new RestTemplate().getForObject( service_url + "/operators", Operator[].class );
