@@ -43,7 +43,7 @@
 			<div class="control-group">
 				<label class="hero-label">Name</label>
 				<div class="controls">
-					<p class="account-name">***</p>
+					<p class="account-name" th:text="${agentName}">***</p>
 				</div>
 				<label class="hero-label">Account</label>
 				<div class="controls">
@@ -65,37 +65,52 @@
 			<div class="control-group">
 				<label class="hero-label control-label col-sm-2" for="location">Location:</label>
 				<div class="controls">
-					<input id="location" name="location" type="text" class="form-control" placeholder="In format: 0.555, -4.555" th:value="${incident.location}" readonly/>
+					<input id="location" name="location" type="text" class="form-control" placeholder="No data found" th:value="${incident.location}" readonly/>
 				</div>
 			</div>
 			<div class="control-group">
 				<label class="hero-label control-label col-sm-2" for="asignee">Assignee:</label>
 				<div class="controls">
-					<input id="asignee" name="agentId" type="text" class="form-control" placeholder="Id of the operator to assign" th:value="${incident.operatorId}" readonly/>
+					<input id="asignee" name="agentId" type="text" class="form-control" placeholder="No data found" th:value="${incident.operatorId}" readonly/>
 				</div>
 			</div>
 			<div class="control-group">
 				<label class="hero-label control-label col-sm-2" for="expiration">Expiration:</label>
 				<div class="controls date" id="datetimepicker">
-					<input id="expiration" name="expiration" type="text" class="form-control" placeholder="In timestampt format" readonly/>
+					<input id="expiration" name="expiration" type="text" class="form-control" placeholder="No data found" readonly/>
 				</div>
 			</div>
 			<div class="control-group">
 				<label class="hero-label control-label col-sm-2" for="tags">Tags:</label>
 				<div class="controls">
-					<input id="tags" name="tags" type="text" class="form-control" placeholder="Enter the tags separated by commas" th:value="${incident.tags}" readonly/>
+					<input id="tags" name="tags" type="text" class="form-control" placeholder="No data found" th:value="${incident.tagsAsString()}" readonly/>
 				</div>
 			</div>
 			<div class="control-group">
 				<label class="hero-label control-label col-sm-2" for="multimedia">Multimedia:</label>
 				<div class="controls">
-					<input id="multimedia" name="multimedia" type="text" class="form-control" placeholder="Add your multimedia links separated by commas" th:value="${incident.multimedia}" readonly/>
+					<input id="multimedia" name="multimedia" type="text" class="form-control" placeholder="No data found" th:value="${incident.multimediaAsString()}" readonly/>
 				</div>
 			</div>
-			<div class="control-group control-last">
+			<div class="control-group">
 				<label class="hero-label control-label col-sm-2" for="properties">Properties:</label>
 				<div class="controls">
-					<input id="properties" name="properties" type="text" class="form-control" placeholder="Enter the properties in the followin format: key:value, key:value..." th:value="${incident.propertyVal}" readonly/>
+					<input id="properties" name="properties" type="text" class="form-control" placeholder="No data found" th:value="${incident.propertyVal}" readonly/>
+				</div>
+			</div>
+			<h3 class="aws-page-header">Comments</h3>
+			<div class="control-group" th:each="comment : ${incident.getComments()}">
+				<label class="hero-label control-label col-sm-2">Operator Id:</label>
+				<div class="controls">
+					<p th:text="${comment.operatorId}"></p>
+				</div>
+				<label class="hero-label control-label col-sm-2">Date:</label>
+				<div class="controls">
+					<p th:text="${comment.date.toString()}"></p>
+				</div>
+				<label class="hero-label control-label col-sm-2">Comment:</label>
+				<div class="controls">
+					<p th:text="${comment.comment}"></p>
 				</div>
 			</div>
 		</form>
