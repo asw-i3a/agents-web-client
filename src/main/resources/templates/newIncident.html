@@ -38,12 +38,15 @@
 
   <div class="container" id="create-incident-cont">
 
-    <h2 class="aws-page-header">Create Incident</h2>
+    <div>
+      <h2 class="aws-page-header">Create Incident</h2>
+      <button class="pull-right btn btn-primary" onclick="getLocation()">Find me!</button>
+    </div>
     <form action="/incidents/new" th:object="${IncidentInfo}" id="Datos" class="aws-form form-incident" method="post">
       <div class="control-group">
         <label class="hero-label">Name</label>
         <div class="controls">
-          <p class="account-name">***</p>
+          <p class="account-name" th:text="${agentName}">***</p>
         </div>
         <label class="hero-label">Account</label>
         <div class="controls">
@@ -67,19 +70,39 @@
         <div class="controls">
           <input id="location" name="location" type="text" class="form-control" placeholder="In format: 0.555, -4.555" />
         </div>
+        <script>
+          var x = document.getElementById("location");
+
+          function getLocation() {
+            if (navigator.geolocation) {
+              navigator.geolocation.getCurrentPosition(showPosition);
+            } else {
+              x.value = "Geolocation is not supported by this browser.";
+            }
+          }
+
+          function showPosition(position) {
+            x.value = position.coords.latitude + ", " + position.coords.longitude;
+          }
+        </script>
       </div>
       <div class="control-group">
         <label class="hero-label control-label col-sm-2" for="asignee">Assignee:</label>
         <div class="controls">
-          <input id="asignee" name="agentId" type="text" class="form-control" placeholder="Id of the operator to assign" />
+          <select id="asignee" name="operatorId" class="form-control">
+            <option value="">Assign automatically</option>
+            <option th:text="${operator.name}" th:value="${operator.operatorId}" th:each="operator : ${operators}"></option>
+          </select>
         </div>
       </div>
+      <!--
       <div class="control-group">
         <label class="hero-label control-label col-sm-2" for="expiration">Expiration:</label>
         <div class="controls date" id="datetimepicker">
           <input id="expiration" name="expiration" type="text" class="form-control" placeholder="In timestampt format" />
         </div>
       </div>
+      -->
       <div class="control-group">
         <label class="hero-label control-label col-sm-2" for="tags">Tags:</label>
         <div class="controls">
