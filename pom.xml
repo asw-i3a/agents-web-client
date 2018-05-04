@@ -101,6 +101,12 @@
 			<artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>pl.pojo</groupId>
+			<artifactId>pojo-tester</artifactId>
+			<version>0.7.6</version>
+		</dependency>
+
 	</dependencies>
 
 	<dependencyManagement>
@@ -245,6 +251,11 @@
 		<repository>
 			<id>jitpack.io</id>
 			<url>https://jitpack.io</url>
+		</repository>
+
+		<repository>
+			<id>jcenter</id>
+			<url>http://jcenter.bintray.com/</url>
 		</repository>
 
 		<repository>
