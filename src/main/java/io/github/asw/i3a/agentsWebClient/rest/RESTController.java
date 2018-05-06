@@ -76,7 +76,6 @@ public class RESTController {
 		Incident incident = new Incident();
 		incident.setTitle( payload.get( "title" ).toString() );
 		incident.setDescription( payload.get( "description" ).toString() );
-		incident.setStatus( "OPEN" );
 		incident.setLocation( payload.get( "location" ).toString() );
 		System.err.println( payload.get( "tags" ) );
 		System.err.println( payload.get( "tags" ).getClass() );

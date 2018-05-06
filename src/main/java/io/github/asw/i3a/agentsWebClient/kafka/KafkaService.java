@@ -50,9 +50,10 @@ public class KafkaService implements IKafkaService {
 					return send( TOPIC, new JSONObject( payload ).toString() );
 				}
 			}
+			return true;
+		} else {
+			return send( TOPIC, new JSONObject( payload ).toString() );
 		}
-		return send( TOPIC, new JSONObject( payload ).toString() );
-
 	}
 
 	private boolean send( String topic, String data ) {
