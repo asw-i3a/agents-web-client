@@ -18,4 +18,12 @@ public class Operator {
 	private String operatorId;
 	private String name;
 	private String email;
+
+	public Operator() {
+
+	}
+
+	public boolean canEquals(Object o) {
+		return this.canEqual(o);
+	}
 }

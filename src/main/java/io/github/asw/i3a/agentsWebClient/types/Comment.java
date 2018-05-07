@@ -9,4 +9,12 @@ public class Comment {
 	private Date date = new Date();
 	private String operatorId = "";
 	private String comment = "";
+
+	public Comment() {
+
+	}
+
+	public boolean canEquals(Object o) {
+		return this.canEqual(o);
+	}
 }
