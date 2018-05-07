@@ -1,5 +1,6 @@
 package io.github.asw.i3a.agentWebClient.types;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static pl.pojo.tester.api.assertion.Assertions.assertPojoMethodsFor;
 
@@ -48,7 +49,7 @@ public class IncidentTest {
 	public void extraTestGetDate() {
 		Incident i = new Incident();
 		i.setIncidentId("5aef2acdb1f3911fd0bdb41c");
-		assertTrue(i.getDate().equals("Sun May 06 18:18:21 CEST 2018"));
+		assertEquals("Sun May 06 18:18:21 CEST 2018", i.getDate());
 		i.setIncidentId("");
 		assertTrue(i.getDate().equals(""));
 		i.setIncidentId(null);
