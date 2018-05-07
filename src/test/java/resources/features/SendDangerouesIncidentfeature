@@ -1,0 +1,13 @@
+Feature: Send incident as person
+
+	Scenario: An agent log into the system
+		Given a agent username
+		And an agent password
+		And an agent kind
+		When the username/password combination is correct
+		Then the id of the agent is returned
+		
+	Scenario: An operator input data for dangeroues incident
+		Given data for the incident with dangerous tag
+		When the incident is sent by a sensor
+		Then the id assigned to the incident is returned
