@@ -25,20 +25,24 @@ public class Incident {
 
 	public String getDate() {
 		if (this.incidentId != null && this.incidentId != "")
-			return new ObjectId( this.incidentId ).getDate().toString();
+			return new ObjectId(this.incidentId).getDate().toString();
 		return "";
 	}
 
 	public String tagsAsString() {
-		return Arrays.toString( tags );
+		return Arrays.toString(tags);
 	}
 
 	public String multimediaAsString() {
-		return Arrays.toString( multimedia );
+		return Arrays.toString(multimedia);
 	}
 
 	public Comment[] getComments() {
-		ArrayUtils.reverse( comments );
+		ArrayUtils.reverse(comments);
 		return comments;
+	}
+
+	public boolean canEquals(Object o) {
+		return this.canEqual(o);
 	}
 }

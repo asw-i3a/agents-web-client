@@ -15,4 +15,12 @@ public class IncidentInfo {
 	private String multimedia;
 	private String properties;
 	private String status;
+
+	public IncidentInfo() {
+
+	}
+
+	public boolean canEquals(Object o) {
+		return this.canEqual(o);
+	}
 }

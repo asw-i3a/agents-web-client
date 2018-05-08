@@ -12,9 +12,12 @@ public class UserInfo {
 	private String password;
 	private String kind;
 
-	public static String toJsonFormat( UserInfo userInfo ) {
-		return "{\"login\": \"" + userInfo.getLogin() + "\", " +
-				"\"password\": \"" + userInfo.getPassword() + "\", " +
-				"\"kind\": \"" + userInfo.getKind() + "\", }";
+	public UserInfo() {
+
+	}
+
+	public static String toJsonFormat(UserInfo userInfo) {
+		return "{\"login\": \"" + userInfo.getLogin() + "\", " + "\"password\": \"" + userInfo.getPassword() + "\", "
+				+ "\"kind\": \"" + userInfo.getKind() + "\", }";
 	}
 }
