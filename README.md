@@ -32,6 +32,8 @@ If you do not has the latest stable version download you can download it [here](
 ### MongoDB
 This project uses MongoDB as the database. You can check how to use it on [MongoDB install](https://github.com/Arquisoft/participants_i2b/wiki/MongoDB). By defatult a dummy server is up and running, it´s configured at the file `applications.properties`. Change this configuration as needed, should not interfeer with the module itself.
 
+### Apache kafka
+This module uses apache kafka in order to notify any kafka consumer about an incident submission. You will need to download or use any online kafka server and, of course, configure it at the application.propperties file.
 
 ## Building the project
 It is as simple as running `mvn install`. Or if you want to run it you can use `mvn mvn spring-boot:run`. Also you can download the last docker image and runnin it with `docker run _image-name-here_`. 
